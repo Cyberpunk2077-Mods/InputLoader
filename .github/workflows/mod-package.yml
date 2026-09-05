@@ -24,7 +24,7 @@ jobs:
           arch: amd64
       - name: Build windows_x64
         run: |
-          cmake -S . -B build -A x64 -DCMAKE_CI_BUILD=ON -DGITHUB_ENV="$env:GITHUB_ENV"
+          cmake -S . -B build -A x64 -DCMAKE_CI_BUILD=ON -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DGITHUB_ENV="$env:GITHUB_ENV"
           cmake --build build --config RelWithDebInfo
       - name: Package
         id: meta
