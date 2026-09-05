@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.24)
 
 # CMake 4+ removed compatibility with projects that declare < 3.5 (e.g. deps/pugixml).
-set(CMAKE_POLICY_VERSION_MINIMUM 3.5 CACHE STRING "" FORCE)
+set(CMAKE_POLICY_VERSION_MINIMUM "3.10" CACHE STRING "" FORCE)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/deps/cyberpunk_cmake")

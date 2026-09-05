@@ -62,7 +62,7 @@ pugi::xml_document inputUserMappingsOriginal;
 
 static std::vector<std::filesystem::path> document_paths;
 
-RED4EXT_C_EXPORT void Add(RED4ext::PluginHandle aHandle, const wchar_t * str) {
+RED4EXT_C_EXPORT void Add(RED4ext::v1::PluginHandle aHandle, const wchar_t * str) {
   std::filesystem::path path(str);
   if (path.is_relative()) {
     char dllFilePath[513] = {0};
@@ -228,15 +228,15 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
   return true;
 }
 
-RED4EXT_C_EXPORT bool RED4EXT_CALL Main(RED4ext::PluginHandle aHandle,
-                                        RED4ext::EMainReason aReason,
-                                        const RED4ext::Sdk *aSdk) {
+RED4EXT_C_EXPORT bool RED4EXT_CALL Main(RED4ext::v1::PluginHandle aHandle,
+                                        RED4ext::v1::EMainReason aReason,
+                                        const RED4ext::v1::Sdk *aSdk) {
   switch (aReason) {
-  case RED4ext::EMainReason::Load: {
+  case RED4ext::v1::EMainReason::Load: {
     // DisableThreadLibraryCalls(aHandle);
 
     spdlog::info("Connected to RED4ext - registering load callback");
-    RED4ext::GameState initState;
+    RED4ext::v1::GameState initState;
     initState.OnEnter = nullptr;
     initState.OnUpdate = nullptr;
     initState.OnExit = &InputLoader::LoadInputConfigs;
@@ -247,7 +247,7 @@ RED4EXT_C_EXPORT bool RED4EXT_CALL Main(RED4ext::PluginHandle aHandle,
     InputLoader::LoadOriginals();
     break;
   }
-  case RED4ext::EMainReason::Unload: {
+  case RED4ext::v1::EMainReason::Unload: {
     spdlog::info("Shutting down");
     spdlog::shutdown();
     break;
@@ -257,15 +257,15 @@ RED4EXT_C_EXPORT bool RED4EXT_CALL Main(RED4ext::PluginHandle aHandle,
   return true;
 }
 
-RED4EXT_C_EXPORT void RED4EXT_CALL Query(RED4ext::PluginInfo *aInfo) {
+RED4EXT_C_EXPORT void RED4EXT_CALL Query(RED4ext::v1::PluginInfo *aInfo) {
   aInfo->name = L"Input Loader";
   aInfo->author = L"Jack Humbert";
   aInfo->version =
-      RED4EXT_SEMVER(MOD_VERSION_MAJOR, MOD_VERSION_MINOR, MOD_VERSION_PATCH);
-  aInfo->runtime = RED4EXT_RUNTIME_INDEPENDENT;
-  aInfo->sdk = RED4EXT_SDK_LATEST;
+      RED4EXT_V1_SEMVER(MOD_VERSION_MAJOR, MOD_VERSION_MINOR, MOD_VERSION_PATCH);
+  aInfo->runtime = RED4EXT_V1_RUNTIME_VERSION_INDEPENDENT;
+  aInfo->sdk = RED4EXT_V1_SDK_VERSION_CURRENT;
 }
 
 RED4EXT_C_EXPORT uint32_t RED4EXT_CALL Supports() {
-  return RED4EXT_API_VERSION_LATEST;
+  return RED4EXT_API_VERSION_1;
 }
